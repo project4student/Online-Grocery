@@ -5,9 +5,7 @@
     font-size: 21px;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
-.nav{
-    background:linear-gradient(to right, #dad299, #b0dab9);
-}
+
 td,th{
 	width:100px;
 }
@@ -34,7 +32,7 @@ td,th{
     flex-direction: column;
     flex-wrap: wrap;
     min-height: 350px;
-    background: linear-gradient(to right, #dad299, #b0dab9);
+    /* background: linear-gradient(to right, #dad299, #b0dab9); */
     width: 100%;
     align-content: center;
     justify-content: center;
@@ -92,7 +90,7 @@ td,th{
 	top: 0px;
 	right: 0px;
 	font-size: 7rem;
-	color: rgba(0, 0, 0, 0.05);
+	color: rgba(0, 0, 0, 0.15);
 	pointer-events: none;
 }
 

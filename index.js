@@ -225,7 +225,7 @@ app.post("/SignUp", async (req, res) => {
 		}
 	}
 	catch (e) {
-		res.render("signup", { err: "Some error occure please try again", signupHref: "Login/SignUp", navbar });
+		res.render("Signup", { err: "Some error occure please try again", signupHref: "Login/SignUp", navbar });
 	}
 });
 
@@ -351,10 +351,10 @@ app.get("/addProduct", async (req, res) => {
 	const login = req.cookies.login;
 	const isCustomer = req.cookies.isCustomer;
 	const symbol = req.cookies.email.charAt(0).toUpperCase();
-	if (req.cookies.login) {
+	if (login == "true" && isCustomer == "false") {
 		res.render("addproduct", { signupHref: "Logout", navbar, login, isCustomer, symbol });
 	} else {
-		res.redirect("/logout");
+		res.send("You are not authorized to view this page !!!");
 	}
 })
 

@@ -5,10 +5,8 @@ html(ng-app="bill")
 		link(rel="stylesheet", href="css/common.css")
 		link(rel="stylesheet", href="css/style.css")
 		link(rel="stylesheet", href="css/product.css")
-		link(rel="stylesheet",type="text/css",href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css")
-		script(src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous")
-		script(type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js")
 		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js")
+		script(src="js/vanilla-tilt.js")
 		link(rel="shortcut icon", href="image/logo.png", type="image/x-icon")
 	body(ng-controller="myCrtl")
 		include navbar.pug
@@ -52,6 +50,12 @@ html(ng-app="bill")
 				input(type="submit", value="CheckOut",ng-click="checkOut()",ng-show="cart.length > 0")
 				.message="{{msg}}"
 		script.
+			VanillaTilt.init(document.querySelectorAll(".card"), {
+				max: 25,
+				speed: 400,
+				glare: true,
+				"max-glare": 0.5
+			});
 			let productJson = `#{productJson}`;
 			productJson=productJson.replaceAll('&quot;','"');
 			let productDetail=JSON.parse(productJson)
