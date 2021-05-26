@@ -225,7 +225,7 @@ app.post("/SignUp", async (req, res) => {
 		}
 	}
 	catch (e) {
-		res.render("Signup", { err: "Some error occure please try again", signupHref: "Login/SignUp", navbar });
+		res.render("Signup", { err: e.message, signupHref: "Login/SignUp", navbar });
 	}
 });
 

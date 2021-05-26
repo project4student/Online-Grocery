@@ -41,7 +41,7 @@ html
 				div(class="form-controller")
 						label(for="cpassword") Confierm Password:
 						input(type="password", name="cpassword", id="cpassword", placeholder="Enter Password",required)
+				if err
+					.err #{err}
 				div(class="form-controller")
 					input(type="submit", value="Singup", id="signup")
-		if err
-			.err #{err}
