@@ -1,0 +1,24 @@
+.container {
+    width: 75vw;
+    height: fit-content;
+    min-height: 250px;
+    margin-bottom: 20px;
+}
+.container>h2 {
+    font-size: 1.4rem;
+    margin: 10px 0px;
+}
+.innerTable {
+    width: 100%;
+    /* height: 99%; */
+}
+table:nth-of-type(odd) {
+    background: linear-gradient(to right, #d3cce3, #e9e4f0);
+    border-radius: 9px;
+}
+table {
+    width: 100%;
+    text-align: center;
+    margin: 8px 0px;
+    padding: 8px 0px;
+}

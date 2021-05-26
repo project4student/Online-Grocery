@@ -1,0 +1,66 @@
+html
+	head
+		title My Order
+		link(rel="stylesheet", href="css/navbar.css")
+		link(rel="stylesheet", href="css/common.css")
+		link(rel="stylesheet", href="css/style.css")
+		link(rel="stylesheet", href="css/order.css")
+		link(rel="shortcut icon", href="image/logo.png", type="image/x-icon")
+	body
+		include navbar.pug
+		-if(isCustomer == 'true'){cust=true}else if(isCustomer == 'false'){shop=true}
+		//- -console.log(isCustomer,user)
+		.container(width="50%")
+			//- h2 Your Order List
+			.innerTable
+				table
+					thead
+						if cust
+							tr
+								th Shop Name
+								th Products
+								th Price
+								th Quantity
+								th Amount
+								th Mobile No.
+						else if shop
+							tr
+								th Customer Name
+								th Products
+								th Price
+								th Quantity
+								th Amount
+								th Address
+								th Mobile No.
+				-if(orderJson.length==2){noOrder=true}
+				if orderJson
+					-let order=JSON.parse(orderJson);
+						each val in order
+							-let i=0;
+							table
+								if cust
+									tr
+										td(rowspan=val.productName.length) #{val.shopName}
+										td #{val.productName[i].name}
+										td #{val.productName[i].price}
+										td #{val.productName[i++].quantity}
+										td(rowspan=val.productName.length) #{val.billAmount}
+										td(rowspan=val.productName.length)
+											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
+								else
+									tr
+										td(rowspan=val.productName.length) #{val.customerName}
+										td #{val.productName[i].name}
+										td #{val.productName[i].price}
+										td #{val.productName[i++].quantity}
+										td(rowspan=val.productName.length) #{val.billAmount}
+										td(rowspan=val.productName.length) #{val.address}
+										td(rowspan=val.productName.length)
+											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
+								while i < val.productName.length
+									tr
+										td #{val.productName[i].name}
+										td #{val.productName[i].price}
+										td #{val.productName[i++].quantity}
+				if noOrder
+					div There is no Order!!

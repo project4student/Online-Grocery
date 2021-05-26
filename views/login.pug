@@ -1,0 +1,55 @@
+html
+	head
+		link(rel="stylesheet", href="css/common.css")
+		link(rel="shortcut icon", href="image/logo.png", type="image/x-icon")
+		link(rel="stylesheet", href="css/login.css")
+		link(rel="stylesheet", href="css/navbar.css")
+		title Login
+	body
+		include navbar.pug
+		div(class="container")
+			h3 Login
+			form(action="/login", method="post")
+				if err
+					.err #{err}
+				.inner-container.user
+					div(id="customer")
+						input(type="radio", name="user",id="cust",value="customer",required,checked)
+						label(for="cust") Customers
+					div(id="shopkeeper")
+						input(type="radio", name="user",id="shop",value="shopkeeper",required)
+						label(for="shop") Shopkeeper
+				div(class="inner-container")
+					div(class="form-controller")
+						label(for="username") Email:
+						input(type="email", name="email",id="email", placeholder="Enter email",required)
+					div(class="form-controller")
+						label(for="password") Password:
+						input(type="password", name="password", id="password", placeholder="Enter Password",required)
+					div(class="form-controller")
+						input(type="submit", value="Login", id="login")
+			div(class="inner-container")
+				a(onclick="sendPassword()",id="fpass") Forget Password?
+			.inner-container#mail
+			div(class="inner-container")
+				p Don't have account? -
+					a(href="./SignUp") SignUp
+					| Now
+		script.
+			const fpass=document.getElementById("fpass");
+			const emailIp=document.getElementById("email");
+			function sendPassword(){
+				const email = emailIp.value;
+				if(email.trim()==""){
+					alert("enter email");
+				}
+				document.getElementById("mail").innerText="Password Sending to your mail.......";
+				fetch('/sendmail',{method:'POST',body:JSON.stringify({email}),  headers: {"Content-type": "application/json"}})
+				.then(res=>res.text())
+				.then(result=>{
+					console.log(result);
+					document.getElementById("mail").innerText=result;
+				}).catch(err=>{
+					console.log(err);
+				})
+			}

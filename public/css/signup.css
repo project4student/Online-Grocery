@@ -1,0 +1,45 @@
+body{
+    width: 100%;
+}
+.container{
+    width:50%;
+    min-height: 740px;
+    padding:10px 30px;
+    margin-bottom: 60px;
+}
+.container h1{
+    font-size: 2rem;
+    margin-top:10px;
+    text-shadow:0px 0px 5px #d4a470, 0px 0px 10px #d4a470, 0px 0px 15px #d4a470, 0px 0px 20px #d4a470, 0px 0px 25px #d4a470;
+}
+form{
+    margin-top: 28px;
+} 
+#user{
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+#customer, #Shopkeeper {
+    width: 50%;
+    display: flex;
+    padding: 3px;
+    align-items: center;
+}
+#customer>input, #Shopkeeper>input{
+    width:5%
+}
+#customer>label, #Shopkeeper>label{
+    cursor: pointer;
+    transition: 0.5s;
+}
+#customer>label:hover, #Shopkeeper>label:hover{
+    text-shadow: 0px 0px 5px #d4a470,0px 0px 10px #d4a470,0px 0px 15px #d4a470;
+    transform: translateY(3px);
+}
+#add {
+    min-height: 55px;
+    max-height: 100px;
+    width: 100%;
+    max-width: 615.5px;
+}

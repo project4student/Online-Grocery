@@ -1,0 +1,171 @@
+html(ng-app="bill")
+	head
+		title Products
+		link(rel="stylesheet", href="css/navbar.css")
+		link(rel="stylesheet", href="css/common.css")
+		link(rel="stylesheet", href="css/style.css")
+		link(rel="stylesheet", href="css/product.css")
+		link(rel="stylesheet",type="text/css",href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css")
+		script(src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous")
+		script(type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js")
+		script(src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js")
+		link(rel="shortcut icon", href="image/logo.png", type="image/x-icon")
+	body(ng-controller="myCrtl")
+		include navbar.pug
+		.outer-box
+			h2 Available Product in shop
+			.box-card#display
+				if productJson
+					-let i=0;
+					-let product=JSON.parse(productJson);
+					each val in product
+						.card
+							img(src="/image/upload/"+val.img, alt="Product Img", srcset="")
+							h3 #{val.name}
+							h3 #{val.price} &#8377;
+							.content
+								button(ng-click="increseQuan("+i+")") +
+								button(ng-click="decreseQuan("+i+")") -
+								h2="{{products["+(i++)+"].quantity}}"
+				else
+					.err #{error}
+			.container
+				table
+					thead
+						tr
+							th Product Name
+							th Price
+							th  Quantitiy
+							th  Total
+					tbody(ng-show="cart.length > 0")
+						tr(ng-repeat="item in cart")
+							td="{{item.name}}"
+							td="{{item.price}}"
+							td="{{item.quantity}}"
+							td="{{item.total}}"
+						tr
+							td(colspan=3,id="ft") Final Total
+							td="{{finalTotal}}"
+					tbody(ng-show="cart.length==0")
+						tr
+							td(colspan=4) There are no item selected.
+				input(type="submit", value="CheckOut",ng-click="checkOut()",ng-show="cart.length > 0")
+				.message="{{msg}}"
+		script.
+			let productJson = `#{productJson}`;
+			productJson=productJson.replaceAll('&quot;','"');
+			let productDetail=JSON.parse(productJson)
+
+			var app = angular.module('bill', []);
+			app.controller('myCrtl', ($scope,$http) => {
+				$scope.products= new Array();
+				$scope.i=0;
+				$scope.cartLength=0;
+				$scope.finalTotal=0;
+				productDetail.forEach((val)=>{
+					$scope.products.push({
+						id:$scope.i++,
+						name:val.name,
+						price:val.price,
+						quantity:0
+					})
+				});
+				console.log($scope.products);
+				console.log("After initialazing product");
+				$scope.cart=new Array();
+				$scope.increseQuan = (value) => {
+					$scope.finalTotal=0;
+					$scope.products[value].quantity+=1;
+					if($scope.cart.length>0){
+						$scope.isExists=false;
+						for($scope.i=0;$scope.i<$scope.cart.length;$scope.i++){
+							if($scope.cart[$scope.i].name == productDetail[value].name){
+								$scope.isExists=true;
+								break;
+							}
+						}
+						if($scope.isExists){
+							$scope.cart[$scope.i].quantity=$scope.products[value].quantity;
+							$scope.cart[$scope.i].total=$scope.cart[$scope.i].quantity*$scope.cart[$scope.i].price;
+							console.log($scope.cart[$scope.i].total,$scope.cart[$scope.i].quantity*$scope.cart[$scope.i].price)
+						}else{
+							$scope.cart.push({
+								id:value,
+								name:productDetail[value].name,
+								price:$scope.products[value].price,
+								quantity:$scope.products[value].quantity,
+								total:$scope.products[value].price
+							});
+							$scope.cartLength+=1;
+							//- $scope.cart.forEach(e=>{
+							//-     $scope.finalTotal+=e.total;
+							//- })
+							//- console.log("Length of cart"+$scope.cartLength)
+						}
+					}else{
+						$scope.cart.push({
+							id:value,
+							name:$scope.products[value].name,
+							price:$scope.products[value].price,
+							quantity:$scope.products[value].quantity,
+							total:$scope.products[value].price
+						});
+						$scope.cartLength+=1;
+						//- console.log("Length of cart"+$scope.cartLength)
+						//- $scope.cart.forEach(e=>{
+						//-     $scope.finalTotal+=e.total;
+						//- })
+					}
+					$scope.cart.forEach(e=>{
+						$scope.finalTotal+=e.total;
+					})
+				}
+				$scope.decreseQuan = (value) => {
+					if ($scope.products[value].quantity > 1) {
+						$scope.finalTotal=0;
+						$scope.products[value].quantity-=1;
+
+						$scope.i=$scope.cart.map(function (obj) { return obj.id; }).indexOf(value);
+						//- console.log($scope.cart[$scope.i].quantity);
+						$scope.cart[$scope.i].quantity=$scope.products[value].quantity;
+						$scope.cart[$scope.i].total=$scope.cart[$scope.i].quantity * $scope.cart[$scope.i].price;
+						$scope.cart.forEach(e=>{
+							$scope.finalTotal+=e.total;
+						})
+					}else if($scope.products[value].quantity == 1){
+						$scope.finalTotal=0;
+						$scope.products[value].quantity = 0;
+
+						$scope.i=$scope.cart.map(function (obj) { return obj.id; }).indexOf(value);
+						//- $scope.card[$scope.i].total=0;
+						console.log("index:"+$scope.i);
+						$scope.left=$scope.cart.slice(0,$scope.i);
+						$scope.right=$scope.cart.slice($scope.i+1,$scope.cartLength);
+
+						$scope.cart=$scope.left.concat($scope.right);
+						console.log("Cart")
+						//- console.log($scope.cart);
+						$scope.cart.forEach(e=>{
+							$scope.finalTotal+=e.total;
+						})
+					}
+				}
+				// $scope.data=
+				$scope.checkOut=()=>{
+					$http.post('/product', JSON.stringify($scope.cart)).then(function (response) {
+					if (response.data)
+						// console.log(response.data);
+						$scope.msg = response.data;
+						setTimeout(()=>{
+							location.href="/Order"
+						},3000)
+
+					}, function (response) {
+						console.log(response);
+						$scope.msg = "Some technical error occur order not place";
+						$scope.statusval = response.status;
+						$scope.statustext = response.statusText;
+						$scope.headers = response.headers();
+					})
+				}
+			});

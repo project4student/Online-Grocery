@@ -1,0 +1,60 @@
+
+body{
+    height: 100vh;
+}
+.container{
+    width: 30%;
+    min-height: 420px;
+    margin-top: 75px;
+    justify-content: space-evenly;
+    border-radius: 12px;
+}
+.inner-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 100%;
+    padding: 2px 11px;
+}
+.user{
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-evenly;
+}
+#customer, #Shopkeeper {
+    width: 50%;
+    padding: 3px;
+}
+#customer label, #Shopkeeper label{
+    cursor: pointer;
+    transition: 0.5s;
+}
+#customer label:hover, #Shopkeeper label:hover{
+    text-shadow: 0px 0px 5px #d4a470,0px 0px 10px #d4a470,0px 0px 15px #d4a470;
+    transform: translateY(3px);
+}
+.container h3 {
+    font-size: 2rem;
+    text-shadow: 0px 0px 5px #d4a470, 0px 0px 10px #d4a470, 0px 0px 15px #d4a470, 0px 0px 20px #d4a470, 0px 0px 25px #d4a470;
+}
+.inner-container p{
+    text-align: center;
+}
+a{
+    text-decoration: none;
+    font-size: 1.3rem;
+    display: inline-block;
+    margin:0px 5px;
+    color: black;
+    cursor: pointer;
+    transition: 0.5s;
+}
+#mail {
+    text-align: center;
+    margin: 10px 0px;
+}
+a:hover{
+    text-shadow:0px 0px 2px #905116, 0px 0px 4px #905116, 0px 0px 6px #905116;
+    transform:translateY(2px);
+}

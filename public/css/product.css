@@ -1,0 +1,107 @@
+.container {
+    width: 45vw;
+    height:300px;
+    margin-bottom: 41px;
+    flex-wrap: wrap;
+}
+.container>h2 {
+    margin: 12px 0px;
+    padding: 5px;
+    font-size: 1.5rem;
+}
+
+/* CSS for card */
+.outer-box{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+    justify-content: center;
+}
+.outer-box>h2{
+    font-size:1.5rem;
+}
+.card {
+    width: 270px;
+    padding: 7px;
+    height: 350px;
+    max-height: 350px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+.card>img {
+    height: 180px;
+    /* width: 100%; */
+    border-radius: 13px;
+    margin: 5px 0px;
+}
+.card>h3 {
+    font-size: 20px;
+    text-transform: uppercase;
+    position: unset;
+    margin-top: 15px;
+}
+.content {
+    flex-direction: row;
+    position: unset;
+    margin: 10px 0px;
+    padding:0px;
+    align-content: center;
+}
+.content button {
+    text-align: center;
+    vertical-align: middle;
+    font-size: 23px;
+    font-weight: bold;
+    cursor: pointer;
+    height: 30px;
+    width: 30px;
+    border-radius: 50px;
+    outline: none;
+    margin: 0 2px;
+    border: 0;
+    box-shadow: 0 0 7px rgba(0, 0, 0, 0.3);
+    background: transparent;
+}
+.content h2 {
+    margin: 0 30px;
+}
+.err {
+    /* border: 2px solid black; */
+    border-radius: 10px;
+    padding: 16px 46px;
+    display: flex;
+    text-align: center;
+    height: 400px;
+    width: 567px;
+    font-size: 1.3rem;
+    margin: 23px 0px;
+    /* background: rgba(255,255,255,0.8); */
+    backdrop-filter: blur(14px);
+    align-items: center;
+}
+input[type="submit"]{
+    border: 2px solid #444;
+    width: 115px;
+    height: 35px;
+    font-size: 1rem;
+    margin: 8px 0px;
+    border-radius: 12px;
+    background: transparent;
+    transition: 0.5s;
+    cursor: pointer;
+}
+.message{
+    margin-top: 10px;
+}
+#ft{
+    text-align: right;
+}
+table{
+    width: 100%;
+    min-height: 163px;
+    margin: 10px;
+    text-align: center;
+}

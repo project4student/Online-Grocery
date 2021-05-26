@@ -1,0 +1,89 @@
+html
+	head
+		title Online Grocery shop
+		link(rel="stylesheet", href="css/navbar.css")
+		link(rel="stylesheet", href="css/style.css")
+		link(rel="stylesheet", href="css/carousel.css")
+		if product
+			link(rel="stylesheet", href="css/product.css")
+		link(rel="shortcut icon", href="image/logo.png", type="image/x-icon")
+	body
+		include navbar.pug
+		.slider
+			.prev-next-button.prev &lt;
+			input(type="radio", name="slider",id="slider" checked)
+			.imgbox
+				img(src="/image/1.jpg", alt="img1", id="img1")
+			input(type="radio", name="slider",id="slider")
+			.imgbox
+				img(src="/image/2.jpg", alt="img2", id="img2")
+			input(type="radio", name="slider",id="slider")
+			.imgbox
+				img(src="/image/3.jpg", alt="img3", id="img3")
+			.prev-next-button.next &gt;
+		.outer_box
+			-let i=1;
+			-if(isCustomer=='true'){user="cust"}else if(isCustomer=='false'){user="shop"}
+			if shop
+				h1 Shops in Your Area
+				.box-card#display
+					each val in shop
+							.card
+								h2=i<10?"0"+(i++):i++
+								h3 #{val.name}
+								.content
+									p #{val.address}
+									a(href="/product?id="+val.email.substring(0,val.email.lastIndexOf('@'))+"&shop="+val.email) View Products
+			else if product
+				h1 Products in Your Shop
+				.box-card#display
+						each val in product
+								.card.product
+									img(src="/image/upload/"+val.img, alt="Product Img")
+									.tag
+										h3 #{val.name}
+										h3 #{val.price} &#8377;
+			else
+				h1 #{err}
+
+		script.
+
+			const prev = document.querySelector(".prev");
+			const next = document.querySelector(".next");
+			const radio = document.querySelectorAll("input[type='radio']");
+			setInterval(() => {
+				if (radio[0].checked) {
+
+					radio[1].checked = true;
+				}
+				else if (radio[1].checked) {
+					radio[2].checked = true;
+				}
+				else if(radio[2].checked) {
+					radio[0].checked = true;
+				}
+			}, 5000);
+
+			next.addEventListener("click", () => {
+				if (radio[0].checked) {
+					radio[1].checked = true;
+				}
+				else if (radio[1].checked) {
+					radio[2].checked = true;
+				}
+				else if(radio[2].checked) {
+					radio[0].checked = true;
+				}
+			});
+
+			prev.addEventListener("click", () => {
+				if (radio[0].checked) {
+					radio[2].checked = true;
+				}
+				else if (radio[1].checked) {
+					radio[0].checked = true;
+				}
+				else if(radio[2].checked) {
+					radio[1].checked = true;
+				}
+			});

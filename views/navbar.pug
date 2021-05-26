@@ -1,0 +1,23 @@
+//- -let hrefLabel = #{signupHref};
+.nav
+	.menu
+		.logo
+			img(src="/image/logo.png", alt="", srcset="")
+		-if(isCustomer == 'false'){user=true};
+		ul
+			li
+				a(href="/") Home
+			if user
+				li
+					a(href="/Order") #{navbar.order}
+				li
+					a(href="/addProduct") #{navbar.addProduct}
+			else
+				li
+					a(href="/Order") #{navbar.myorder}
+	.sign
+		if login
+			.symbol #{symbol}
+			a(href='/logout') #{signupHref}
+		else
+			a(href='/login') #{signupHref}

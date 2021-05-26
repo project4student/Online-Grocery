@@ -1,0 +1,47 @@
+html
+	head
+		title SignUp
+		link(rel="stylesheet", href="/css/common.css")
+		link(rel="shortcut icon", href="/image/logo.png", type="image/x-icon")
+		link(rel="stylesheet", href="/css/signup.css")
+		link(rel="stylesheet", href="/css/navbar.css")
+	body
+		include navbar.pug
+		div(class="container")
+			h1 SignUp
+			form(action="/SignUp", method="post")
+				div(class="form-controller",id="user")
+					#customer
+						input(type="radio", name="user",id="cust",value="Customer",required,checked)
+						label(for="cust") Customer
+					#shopkeeper
+						input(type="radio", name="user",id="shop",value="shopkeeper",required)
+						label(for="shop") Shopkeeper
+				div(class="form-controller")
+					label(for="name") Full Name/Shop Name:
+					input(type="text", name="name" id="name",placeholder="Enter name of Customer/Shop", required)
+				div(class="form-controller")
+					label(for="email") Email:
+					input(type="email", name="email" id="email",placeholder="Enter your Email", required)
+				div(class="form-controller")
+					label(for="tel") Mobile Number:
+					input(type="tel", name="tel" id="tel", required, maxlength="10",placeholder="Enter Your mobile number")
+				div(class="form-controller")
+					label(for="add") Pincode:
+					input(type="tel", name="pincode" id="pincode", required, maxlength="6",placeholder="Enter your pincode")
+				div(class="form-controller")
+					label(for="add") Address:
+					textarea(name="add", cols="30", rows="10",id="add",placeholder="Enter your Address",required)
+				div(class="form-controller")
+					label(for="name") City:
+					input(type="text", name="city" id="city",placeholder="Enter your city",required)
+				div(class="form-controller")
+					label(for="password") Password:
+					input(type="password", name="password", id="password", placeholder="Enter Password",required)
+				div(class="form-controller")
+						label(for="cpassword") Confierm Password:
+						input(type="password", name="cpassword", id="cpassword", placeholder="Enter Password",required)
+				div(class="form-controller")
+					input(type="submit", value="Singup", id="signup")
+		if err
+			.err #{err}
