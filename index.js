@@ -206,7 +206,7 @@ app.post("/SignUp", async (req, res) => {
 				const pub = new Customer(publicSch);
 				const r = await pub.save();
 				if (r) {
-					res.render("signup", { signupHref: "Login/SignUp", navbar });
+					res.render("Signup", { signupHref: "Login/SignUp", navbar });
 				}
 			}
 		} else if (user == 'shopkeeper') {
