@@ -56,7 +56,8 @@ const myOrderSchema = new mongoose.Schema({
 		}
 	],
 	billAmount: Number,
-	contactNumber: Number
+	contactNumber: Number,
+	date: { type: String, default: new Date().getTime() }
 })
 
 const orderSchema = new mongoose.Schema({
@@ -72,7 +73,8 @@ const orderSchema = new mongoose.Schema({
 	],
 	billAmount: Number,
 	contactNumber: Number,
-	address: String
+	address: String,
+	date: { type: String, default: new Date().getTime() }
 })
 
 const productSchema = new mongoose.Schema({
@@ -95,7 +97,7 @@ app.get("/", async (req, res) => {
 	const login = req.cookies.login;
 	try {
 		if (login) {
-			const email = req.cookies.email.substring(0, req.cookies.email.indexOf("@")) + "s";
+			const email = req.cookies.email.substring(0, req.cookies.email.indexOf("@"));
 			const symbol = email.charAt(0).toUpperCase();
 			if (isCustomer == 'true') {
 				const shop = await Shopkeeper.find({ pincode: req.cookies.pincode }, { name: 1, address: 1, email: 1 });
@@ -123,16 +125,6 @@ app.get("/", async (req, res) => {
 	catch (err) {
 		console.log(err);
 	}
-});
-
-app.get("/logout", (req, res) => {
-	res.clearCookie("login");
-	res.clearCookie("name");
-	res.clearCookie("pincode");
-	res.clearCookie("email");
-	res.clearCookie("isCustomer");
-	res.clearCookie("shopemail");
-	res.redirect("/login");
 });
 
 app.get("/login", async (req, res) => {
@@ -316,7 +308,32 @@ app.post("/product", async (req, res) => {
 	const shOrder = new ShoporderDb(shopOrder);
 	const r = await shOrder.save();
 
-	(r && re) ? res.status(200).send("Order place Successfully! You will be redirect in some time") : res.status(400).send("Some technical error occur order not place");
+	// console.log(r,re);
+	if(r && re){
+		let transporter = nodemailer.createTransport({
+			service: 'gmail',
+			auth: {
+				user: "tpass3506@gmail.com", // username for your mail server
+				pass: "Mihir@2114", // password
+			},
+		});
+		transporter.sendMail({
+			from: 'tpass3506@gmail.com', // sender address
+			to: req.cookies.shopemail, // list of receivers seperated by comma
+			subject: "Regarding order", // Subject line
+			html: "<h2>Hello,</h2><p>We are happy to tell you that You receive an order form "+req.cookies.name+" please check order list. And complete the order as soon as posible</p>",
+		}, (error, info) => {
+			if (error) {
+				// console.log(error.response)
+				res.send("Some technical error occur order not place");
+			} else if (info.response.includes("OK")) {
+				// console.log("order place");
+				res.send("Order place Successfully! You will be redirect in some time.");
+			}
+		});
+	}else{
+		res.send("Some technical error occur order not place");
+	}
 })
 
 app.get("/Order", async (req, res) => {
@@ -328,7 +345,6 @@ app.get("/Order", async (req, res) => {
 			const collection = req.cookies.email.substring(0, req.cookies.email.indexOf("@"));
 			const Custdb = connect1.model(collection, myOrderSchema);
 			const order = await Custdb.find({});
-
 			const orderJson = JSON.stringify(order);
 
 			res.render("order", { signupHref: "Logout", navbar, login, isCustomer, orderJson, symbol });
@@ -389,10 +405,9 @@ app.post("/sendmail", async (req, res) => {
 	let transporter = nodemailer.createTransport({
 		service: 'gmail',
 		auth: {
-			user: "chachamehta33@gmail.com", // username for your mail server
-			pass: "Chacha@2114", // password
+			user: "tpass3506@gmail.com", // username for your mail server
+			pass: "Mihir@2114", // password
 		},
-
 	});
 	let result = await Customer.findOne({ email }, { _id: 0, password: 1 }) || await Shopkeeper.findOne({ email }, { _id: 0, password: 1 });
 	if (result) {
@@ -413,6 +428,16 @@ app.post("/sendmail", async (req, res) => {
 		res.send("Your are not register in our database, Please SignUp!");
 	}
 })
+
+app.get("/logout", (req, res) => {
+	res.clearCookie("login");
+	res.clearCookie("name");
+	res.clearCookie("pincode");
+	res.clearCookie("email");
+	res.clearCookie("isCustomer");
+	res.clearCookie("shopemail");
+	res.redirect("/login");
+});
 
 app.on("error", err => console.log(err));
 

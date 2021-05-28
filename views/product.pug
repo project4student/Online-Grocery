@@ -57,28 +57,37 @@ html(ng-app="bill")
 				"max-glare": 0.5
 			});
 			let productJson = `#{productJson}`;
+			let productDetail=null;
 			productJson=productJson.replaceAll('&quot;','"');
-			let productDetail=JSON.parse(productJson)
+			if(productJson.length > 0)
+				productDetail=JSON.parse(productJson)
 
 			var app = angular.module('bill', []);
 			app.controller('myCrtl', ($scope,$http) => {
+				
 				$scope.products= new Array();
+				$scope.cart=null;
+				//- console.log($scope.cart);
+				$scope.msg="";
 				$scope.i=0;
 				$scope.cartLength=0;
 				$scope.finalTotal=0;
-				productDetail.forEach((val)=>{
-					$scope.products.push({
-						id:$scope.i++,
-						name:val.name,
-						price:val.price,
-						quantity:0
-					})
-				});
-				console.log($scope.products);
-				console.log("After initialazing product");
+				if(productDetail != null){
+					productDetail.forEach((val)=>{
+						$scope.products.push({
+							id:$scope.i++,
+							name:val.name,
+							price:val.price,
+							quantity:0
+						})
+					});
+				}
+				//- console.log($scope.products);
+				//- console.log("After initialazing product");
 				$scope.cart=new Array();
 				$scope.increseQuan = (value) => {
 					$scope.finalTotal=0;
+					$scope.msg="";
 					$scope.products[value].quantity+=1;
 					if($scope.cart.length>0){
 						$scope.isExists=false;
@@ -91,7 +100,7 @@ html(ng-app="bill")
 						if($scope.isExists){
 							$scope.cart[$scope.i].quantity=$scope.products[value].quantity;
 							$scope.cart[$scope.i].total=$scope.cart[$scope.i].quantity*$scope.cart[$scope.i].price;
-							console.log($scope.cart[$scope.i].total,$scope.cart[$scope.i].quantity*$scope.cart[$scope.i].price)
+							//- console.log($scope.cart[$scope.i].total,$scope.cart[$scope.i].quantity*$scope.cart[$scope.i].price)
 						}else{
 							$scope.cart.push({
 								id:value,
@@ -125,6 +134,7 @@ html(ng-app="bill")
 					})
 				}
 				$scope.decreseQuan = (value) => {
+					$scope.msg="";
 					if ($scope.products[value].quantity > 1) {
 						$scope.finalTotal=0;
 						$scope.products[value].quantity-=1;
@@ -142,31 +152,32 @@ html(ng-app="bill")
 
 						$scope.i=$scope.cart.map(function (obj) { return obj.id; }).indexOf(value);
 						//- $scope.card[$scope.i].total=0;
-						console.log("index:"+$scope.i);
+						//- console.log("index:"+$scope.i);
 						$scope.left=$scope.cart.slice(0,$scope.i);
 						$scope.right=$scope.cart.slice($scope.i+1,$scope.cartLength);
 
 						$scope.cart=$scope.left.concat($scope.right);
-						console.log("Cart")
+						//- console.log("Cart")
 						//- console.log($scope.cart);
 						$scope.cart.forEach(e=>{
 							$scope.finalTotal+=e.total;
 						})
 					}
 				}
-				// $scope.data=
 				$scope.checkOut=()=>{
 					$http.post('/product', JSON.stringify($scope.cart)).then(function (response) {
-					if (response.data)
-						// console.log(response.data);
-						$scope.msg = response.data;
-						setTimeout(()=>{
-							location.href="/Order"
-						},3000)
-
+						//- console.log(response.status);
+						//- console.log(response.data);
+						if (response.status == 200){
+							$scope.msg = response.data;
+							setTimeout(()=>{
+								location.href="/Order"
+							},3000)
+						}else{
+							$scope.msg = "Some technical error occur order not place please try after some time";
+						}
 					}, function (response) {
-						console.log(response);
-						$scope.msg = "Some technical error occur order not place";
+						//- $scope.msg = "Some technical error occur order not place please try after some time";
 						$scope.statusval = response.status;
 						$scope.statustext = response.statusText;
 						$scope.headers = response.headers();

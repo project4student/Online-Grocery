@@ -5,6 +5,7 @@ html
 		link(rel="shortcut icon", href="/image/logo.png", type="image/x-icon")
 		link(rel="stylesheet", href="/css/signup.css")
 		link(rel="stylesheet", href="/css/navbar.css")
+		script(src="/js/validator.js")
 	body
 		include navbar.pug
 		div(class="container")
@@ -45,3 +46,26 @@ html
 					.err #{err}
 				div(class="form-controller")
 					input(type="submit", value="Singup", id="signup")
+		script.
+			
+
+
+
+
+
+//- .err {
+//- 	color: #dc1907;
+//- 	font-size: 20px;
+//- 	margin: 0 10px;
+//- 	font-weight: 500;
+//- }
+
+//- .disabled {
+//- 	opacity: 0.5;
+//- }
+
+//- .disabled:hover {
+//- 	cursor: not-allowed;
+//- 	transform: none;
+//- 	box-shadow: none;
+//- }

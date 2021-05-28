@@ -38,9 +38,19 @@ td,th{
     justify-content: center;
     align-items: center;
 }
-.outer_box>h1 {
+.outer_box>h1{
+	font-size: 1.5rem;
+	margin: 12px 0px;
+}
+.noShop{
     font-size: 1.5rem;
+    width: 600px;
+    color: #ffffff;
+    text-align: center;
+    background: linear-gradient(to right, rgb(67 198 172 / 40%), rgb(248 255 174 / 40%));
     margin: 12px 0px;
+    padding: 50px;
+    border-radius: 10px;
 }
 .box-card {
 	display: flex;
