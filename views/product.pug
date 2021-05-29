@@ -165,6 +165,7 @@ html(ng-app="bill")
 					}
 				}
 				$scope.checkOut=()=>{
+					$scope.cart.push({date:new Date().getTime()});
 					$http.post('/product', JSON.stringify($scope.cart)).then(function (response) {
 						//- console.log(response.status);
 						//- console.log(response.data);

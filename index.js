@@ -57,7 +57,7 @@ const myOrderSchema = new mongoose.Schema({
 	],
 	billAmount: Number,
 	contactNumber: Number,
-	date: { type: String, default: new Date().getTime() }
+	date: String
 })
 
 const orderSchema = new mongoose.Schema({
@@ -74,7 +74,7 @@ const orderSchema = new mongoose.Schema({
 	billAmount: Number,
 	contactNumber: Number,
 	address: String,
-	date: { type: String, default: new Date().getTime() }
+	date: String
 })
 
 const productSchema = new mongoose.Schema({
@@ -267,7 +267,9 @@ app.get('/product', async (req, res) => {
 });
 
 app.post("/product", async (req, res) => {
-	const product = req.body;
+	const temp = req.body;
+	const date = temp.pop().date;
+	const product = temp;
 	let amount = 0;
 	const finalProduct = [];
 	product.forEach(e => {
@@ -289,7 +291,7 @@ app.post("/product", async (req, res) => {
 	const contactdetail = await Shopkeeper.findOne({ email: req.cookies.shopemail }, { _id: 0, contact: 1 });
 	let shopcontact = contactdetail.contact;
 
-	const custOrder = { shopName, productName: finalProduct, billAmount: amount, contactNumber: shopcontact };
+	const custOrder = { shopName, productName: finalProduct, billAmount: amount, contactNumber: shopcontact, date };
 
 	const OrderDb = connect1.model(dbname, myOrderSchema);
 	const cuOr = new OrderDb(custOrder);
@@ -302,14 +304,14 @@ app.post("/product", async (req, res) => {
 	let custAdd = contactCust.address;
 	let custContact = contactCust.contact;
 
-	const shopOrder = { customerName: custName, productName: finalProduct, billAmount: amount, contactNumber: custContact, address: custAdd };
+	const shopOrder = { customerName: custName, productName: finalProduct, billAmount: amount, contactNumber: custContact, address: custAdd, date };
 
 	const ShoporderDb = connect2.model(shopName + "order", orderSchema);
 	const shOrder = new ShoporderDb(shopOrder);
 	const r = await shOrder.save();
 
 	// console.log(r,re);
-	if(r && re){
+	if (r && re) {
 		let transporter = nodemailer.createTransport({
 			service: 'gmail',
 			auth: {
@@ -321,7 +323,7 @@ app.post("/product", async (req, res) => {
 			from: 'tpass3506@gmail.com', // sender address
 			to: req.cookies.shopemail, // list of receivers seperated by comma
 			subject: "Regarding order", // Subject line
-			html: "<h2>Hello,</h2><p>We are happy to tell you that You receive an order form "+req.cookies.name+" please check order list. And complete the order as soon as posible</p>",
+			html: "<h2>Hello,</h2><p>We are happy to tell you that You receive an order form " + req.cookies.name + " please check order list. And complete the order as soon as posible</p>",
 		}, (error, info) => {
 			if (error) {
 				// console.log(error.response)
@@ -331,7 +333,7 @@ app.post("/product", async (req, res) => {
 				res.send("Order place Successfully! You will be redirect in some time.");
 			}
 		});
-	}else{
+	} else {
 		res.send("Some technical error occur order not place");
 	}
 })
