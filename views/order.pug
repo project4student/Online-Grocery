@@ -50,7 +50,7 @@ html
 										td(rowspan=val.productName.length)
 											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
 										-var millsec=parseInt(val.date);
-										-var date=new Date(millsec).toString().substring(4,24);
+										-var date=new Date(millsec).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'}).toUpperCase();
 										td(rowspan=val.productName.length)=date
 								else
 									tr
@@ -63,7 +63,7 @@ html
 										td(rowspan=val.productName.length)
 											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
 										-var millsec=parseInt(val.date);
-										-var date=new Date(millsec).toString().substring(4,24);
+										-var date=new Date(millsec).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'}).toUpperCase();
 										td(rowspan=val.productName.length)=date
 								while i < val.productName.length
 									tr
