@@ -49,8 +49,8 @@ html
 										td(rowspan=val.productName.length) #{val.billAmount}
 										td(rowspan=val.productName.length)
 											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
-										-let msec=parseInt(val.date);
-										-let date=new Date(msec).toString().substring(4,24);
+										-var millsec=parseInt(val.date);
+										-var date=new Date(millsec).toString().substring(4,24);
 										td(rowspan=val.productName.length)=date
 								else
 									tr
@@ -62,8 +62,8 @@ html
 										td(rowspan=val.productName.length) #{val.address}
 										td(rowspan=val.productName.length)
 											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
-										-let msec=parseInt(val.date);
-										-let date=new Date(msec).toString().substring(4,24);
+										-var millsec=parseInt(val.date);
+										-var date=new Date(millsec).toString().substring(4,24);
 										td(rowspan=val.productName.length)=date
 								while i < val.productName.length
 									tr
