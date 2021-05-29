@@ -15,9 +15,23 @@ form{
     margin-right:5px;
     margin-left:5px;
 }
-/* input[type="file"]{
-    color:transparent;
+.isvalid {
+	border: 1.5px solid #dc1907 !important;
 }
-input[type="file"]::before{
-content:"Select File";
-} */
+.isvalid:focus {
+	box-shadow: 0 0 1px #dc1907,
+	0 0 3px #dc1907,
+	0 0 5px #dc1907,
+	0 0 7px #dc1907,
+	0 0 8px #dc1907 !important;
+}
+
+.disabled {
+	opacity: 0.5 !important;
+}
+
+.disabled:hover {
+	cursor: not-allowed !important;
+	transform: none !important;
+	box-shadow: none !important;
+}

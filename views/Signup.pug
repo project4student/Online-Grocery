@@ -3,8 +3,8 @@ html
 		title SignUp
 		link(rel="stylesheet", href="/css/common.css")
 		link(rel="shortcut icon", href="/image/logo.png", type="image/x-icon")
-		link(rel="stylesheet", href="/css/signup.css")
 		link(rel="stylesheet", href="/css/navbar.css")
+		link(rel="stylesheet", href="/css/signup.css")
 		script(src="/js/validator.js")
 	body
 		include navbar.pug
@@ -42,30 +42,99 @@ html
 				div(class="form-controller")
 						label(for="cpassword") Confirm Password:
 						input(type="password", name="cpassword", id="cpassword", placeholder="Enter confirm Password",required)
+						#err
 				if err
 					.err #{err}
 				div(class="form-controller")
 					input(type="submit", value="Singup", id="signup")
 		script.
+			const submit = document.querySelector("input[type='submit']");
+			const form = document.querySelector("form");
+
+			let isValid = false;
+
+			const validate = (whose, what) => {
+				if (what == "valid") {
+					whose.classList.remove("isvalid");
+					submit.classList.remove("disabled");
+					submit.removeAttribute("disabled");
+				}
+				else {
+					whose.classList.add("isvalid");
+					submit.classList.add("disabled");
+					submit.setAttribute("disabled", "disabled");
+				}
+			}
+
+			const fname = document.querySelector("input[name='name']");
+			fname.addEventListener("focusout", () => {
+				isValid = validator.isAlpha(fname.value.trim(), "en-US", { ignore: " " });
+				isValid ? validate(fname, "valid") : validate(fname, "invalid");
+			});
+
+
+			const email = document.querySelector("input[name='email']");
+			email.addEventListener("focusout", () => {
+				isValid = validator.isEmail(email.value.trim());
+				isValid ? validate(email, "valid") : validate(email, "invalid");
+			});
 			
+			const pincode = document.querySelector("input[name='pincode']");
+			pincode.addEventListener("focusout", () => {
+				isValid = validator.isPostalCode(pincode.value.trim(),"IN");
+				isValid ? validate(pincode, "valid") : validate(pincode, "invalid");
+			});
 
 
+			const mobile = document.querySelector("input[name='mobile']") || document.querySelector("input[name='tel']");
+			mobile.addEventListener("focusout", () => {
+				isValid = validator.isMobilePhone(mobile.value.trim(), "en-IN");
+				isValid ? validate(mobile, "valid") : validate(mobile, "invalid");
+			});
 
+			const address = document.querySelector("textarea[name='add']");
+			if (address) {
+				address.addEventListener("focusout", () => {
+					isValid = validator.isEmpty(address.value.trim());
+					!isValid ? validate(address, "valid") : validate(address, "invalid");
+				});
+			}
 
+			const city = document.querySelector("input[name='city']");
+			city.addEventListener("focusout", () => {
+				isValid = validator.isAlpha(city.value.trim(), "en-US", { ignore: " " });
+				isValid ? validate(city, "valid") : validate(city, "invalid");
+			});
 
-//- .err {
-//- 	color: #dc1907;
-//- 	font-size: 20px;
-//- 	margin: 0 10px;
-//- 	font-weight: 500;
-//- }
+			const password = document.querySelector("input[name='password']");
+			password.addEventListener("focusout", () => {
+				isValid = validator.isStrongPassword(password.value.trim());
+				isValid ? validate(password, "valid") : validate(password, "invalid");
+			});
 
-//- .disabled {
-//- 	opacity: 0.5;
-//- }
+			const cpassword = document.querySelector("input[name='cpassword']");
+			cpassword.addEventListener("focusout", () => {
+				isValid = validator.isStrongPassword(cpassword.value.trim());
+				if (password.value.trim() !== cpassword.value.trim()) {
+					validate(cpassword, "invalid");
+					document.querySelector("#err").innerHTML = "Password Must Match With Confirm Password";
+				}
+				else if (isValid) {
+					validate(cpassword, "valid");
+					document.querySelector("#err").innerHTML = "";
+				}
+				else {
+					validate(cpassword, "invalid");
+					document.querySelector("#err").innerHTML = "";
+				}
+			});
 
-//- .disabled:hover {
-//- 	cursor: not-allowed;
-//- 	transform: none;
-//- 	box-shadow: none;
-//- }
+			form.addEventListener("submit", e => {
+				if (!isValid) {
+					e.preventDefault();
+					document.querySelector(".err").innerHTML = "Enter Details prperly !!";
+				}
+				else {
+					document.querySelector(".err").innerHTML = "";
+				}
+			});

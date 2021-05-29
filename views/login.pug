@@ -1,17 +1,16 @@
 html
 	head
+		title Login
 		link(rel="stylesheet", href="css/common.css")
 		link(rel="shortcut icon", href="image/logo.png", type="image/x-icon")
 		link(rel="stylesheet", href="css/login.css")
 		link(rel="stylesheet", href="css/navbar.css")
-		title Login
+		script(src="/js/validator.js")
 	body
 		include navbar.pug
 		div(class="container")
 			h3 Login
 			form(action="/login", method="post")
-				if err
-					.err #{err}
 				.inner-container.user
 					div(id="customer")
 						input(type="radio", name="user",id="cust",value="customer",required,checked)
@@ -28,6 +27,8 @@ html
 						input(type="password", name="password", id="password", placeholder="Enter Password",required)
 					div(class="form-controller")
 						input(type="submit", value="Login", id="login")
+				if err
+						.err #{err}
 			div(class="inner-container")
 				a(onclick="sendPassword()",id="fpass") Forget Password?
 			.inner-container#mail
@@ -36,20 +37,52 @@ html
 					a(href="./SignUp") SignUp
 					| Now
 		script.
+			const submit = document.querySelector("input[type='submit']");
+			const form = document.querySelector("form");
+
+			let isValid = false;
+
+			const validate = (whose, what) => {
+				if (what == "valid") {
+					whose.classList.remove("isvalid");
+					submit.classList.remove("disabled");
+					submit.removeAttribute("disabled");
+				}
+				else {
+					whose.classList.add("isvalid");
+					submit.classList.add("disabled");
+					submit.setAttribute("disabled", "disabled");
+				}
+			}
+
+			const email = document.querySelector("input[name='email']");
+			email.addEventListener("focusout", () => {
+				isValid = validator.isEmail(email.value.trim());
+				isValid ? validate(email, "valid") : validate(email, "invalid");
+			});
+			
+			const password = document.querySelector("input[name='password']");
+			password.addEventListener("focusout", () => {
+				isValid = validator.isStrongPassword(password.value.trim());
+				isValid ? validate(password, "valid") : validate(password, "invalid");
+			});
+
 			const fpass=document.getElementById("fpass");
 			const emailIp=document.getElementById("email");
+			const mail=document.getElementById("mail");
 			function sendPassword(){
+				mail.style.display="block";
 				const email = emailIp.value;
 				if(email.trim()==""){
-					alert("enter email");
+					mail.innerText="Enter email";
 				}
-				document.getElementById("mail").innerText="Password Sending to your mail.......";
+				mail.innerText="Password Sending to your mail.......";
 				fetch('/sendmail',{method:'POST',body:JSON.stringify({email}),  headers: {"Content-type": "application/json"}})
 				.then(res=>res.text())
 				.then(result=>{
-					console.log(result);
+					//- console.log(result);
 					document.getElementById("mail").innerText=result;
 				}).catch(err=>{
-					console.log(err);
+					//- console.log(err);
 				})
 			}

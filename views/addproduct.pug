@@ -4,6 +4,7 @@ html
 		link(rel="stylesheet", href="css/navbar.css")
 		link(rel="stylesheet", href="css/common.css")
 		link(rel="stylesheet", href="css/addproduct.css")
+		script(src="/js/validator.js")
 		link(rel="shortcut icon", href="image/logo.png", type="image/x-icon")
 	body(id="body")
 		include navbar.pug
@@ -12,12 +13,42 @@ html
 			form(action="/addProduct",enctype="multipart/form-data",method="post")
 				.form-controller
 					label(for="name") Product Name:
-					input(type="text", name="name",id="name")
+					input(type="text", name="name",id="name",placeholder="Enter name of product",required)
 				.form-controller
 					label(for="Price") Price:
-					input(type="number", name="price",id="name")
+					input(type="number", name="price",id="price",placeholder="Enter price of product",required)
 				.form-controller
 					label(for="photo") Add Photo:
-					input(type="file",name="photo",id="photo")
+					input(type="file",name="photo",id="photo",required)
 				.form-controller
 					input(type="submit", value="Add")
+		script.
+			const submit = document.querySelector("input[type='submit']");
+			const form = document.querySelector("form");
+
+			let isValid = false;
+
+			const validate = (whose, what) => {
+				if (what == "valid") {
+					whose.classList.remove("isvalid");
+					submit.classList.remove("disabled");
+					submit.removeAttribute("disabled");
+				}
+				else {
+					whose.classList.add("isvalid");
+					submit.classList.add("disabled");
+					submit.setAttribute("disabled", "disabled");
+				}
+			}
+
+			const name = document.querySelector("input[name='name']");
+			name.addEventListener("focusout", () => {
+				isValid = validator.isAlpha(name.value.trim(), "en-US", { ignore: " " });
+				isValid ? validate(name, "valid") : validate(name, "invalid");
+			});
+			
+			const price = document.querySelector("input[name='price']");
+			price.addEventListener("focusout", () => {
+				isValid = validator.isNumeric(price.value.trim(), "en-IN");
+				isValid ? validate(price, "valid") : validate(price, "invalid");
+			});

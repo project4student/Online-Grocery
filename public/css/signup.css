@@ -43,3 +43,24 @@ form{
     width: 100%;
     max-width: 615.5px;
 }
+
+.isvalid {
+	border: 1.5px solid #dc1907 !important;
+}
+.isvalid:focus {
+	box-shadow: 0 0 1px #dc1907,
+	0 0 3px #dc1907,
+	0 0 5px #dc1907,
+	0 0 7px #dc1907,
+	0 0 8px #dc1907 !important;
+}
+
+.disabled {
+	opacity: 0.5 !important;
+}
+
+.disabled:hover {
+	cursor: not-allowed !important;
+	transform: none !important;
+	box-shadow: none !important;
+}

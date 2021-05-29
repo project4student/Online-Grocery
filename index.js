@@ -413,7 +413,7 @@ app.post("/sendmail", async (req, res) => {
 	if (result) {
 		// send mail with defined transport object
 		transporter.sendMail({
-			from: 'chachamehta33@gmail.com', // sender address
+			from: 'tpass3506@gmail.com', // sender address
 			to: email, // list of receivers seperated by comma
 			subject: "Changing Password", // Subject line
 			text: "Your Password is :- " + result.password,

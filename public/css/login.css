@@ -51,10 +51,31 @@ a{
     transition: 0.5s;
 }
 #mail {
+    display: none;
     text-align: center;
     margin: 10px 0px;
 }
 a:hover{
     text-shadow:0px 0px 2px #905116, 0px 0px 4px #905116, 0px 0px 6px #905116;
     transform:translateY(2px);
+}
+.isvalid {
+	border: 1.5px solid #dc1907 !important;
+}
+.isvalid:focus {
+	box-shadow: 0 0 1px #dc1907,
+	0 0 3px #dc1907,
+	0 0 5px #dc1907,
+	0 0 7px #dc1907,
+	0 0 8px #dc1907 !important;
+}
+
+.disabled {
+	opacity: 0.5 !important;
+}
+
+.disabled:hover {
+	cursor: not-allowed !important;
+	transform: none !important;
+	box-shadow: none !important;
 }
