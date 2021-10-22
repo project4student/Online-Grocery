@@ -48,7 +48,7 @@ html(ng-app="bill")
 						tr
 							td(colspan=4) There are no item selected.
 				input(type="submit", value="CheckOut",ng-click="checkOut()",ng-show="cart.length > 0")
-				.message="{{msg}}"
+				.message {{msg}}
 		script.
 			//- VanillaTilt.init(document.querySelectorAll(".card"), {
 			//- 	max: 25,
@@ -166,22 +166,22 @@ html(ng-app="bill")
 				}
 				$scope.checkOut=()=>{
 					$scope.cart.push({date:new Date().getTime()});
-					$http.post('/product', JSON.stringify($scope.cart)).then(function (response) {
-						//- console.log(response.status);
-						//- console.log(response.data);
-						if (response.status == 200){
+					$scope.msg="Processing...";
+					$http.post('/product', JSON.stringify($scope.cart)).then(
+						function (response) {
+							if (response.status == 200){
+								$scope.msg = response.data;
+								setTimeout(()=>{
+									location.href="/Order"
+								},3000)
+							}else{
+								$scope.msg = "Some technical error occur order not place please try after some time";
+							}
+						}, function (response) {
 							$scope.msg = response.data;
-							setTimeout(()=>{
-								location.href="/Order"
-							},3000)
-						}else{
-							$scope.msg = "Some technical error occur order not place please try after some time";
-						}
-					}, function (response) {
-						//- $scope.msg = "Some technical error occur order not place please try after some time";
-						$scope.statusval = response.status;
-						$scope.statustext = response.statusText;
-						$scope.headers = response.headers();
-					})
+							$scope.statusval = response.status;
+							$scope.statustext = response.statusText;
+							$scope.headers = response.headers();
+						})
 				}
 			});

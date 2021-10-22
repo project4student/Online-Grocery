@@ -1,22 +1,22 @@
 {
-  "name": "summer-internship",
-  "version": "1.0.0",
-  "description": "Online Grocery Shop",
-  "main": "index.js",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
-  "author": "Mihirsinh Gohil",
-  "license": "ISC",
-  "dependencies": {
-    "cookie-parser": "^1.4.5",
-    "express": "^4.17.1",
-    "formidable": "^1.2.2",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.12.9",
-    "mv": "^2.1.1",
-    "nodemailer": "^6.6.1",
-    "pug": "^3.0.2"
-  }
+	"name": "summer-internship",
+	"version": "1.0.0",
+	"description": "Online Grocery Shop",
+	"main": "index.js",
+	"scripts": {
+		"start": "node index.js",
+		"dev": "nodemon index.js"
+	},
+	"author": "Mihirsinh Gohil",
+	"license": "ISC",
+	"dependencies": {
+		"cookie-parser": "^1.4.5",
+		"express": "^4.17.1",
+		"formidable": "^1.2.2",
+		"jsonwebtoken": "^8.5.1",
+		"mongoose": "^6.0.12",
+		"mv": "^2.1.1",
+		"nodemailer": "^6.7.0",
+		"pug": "^3.0.2"
+	}
 }
