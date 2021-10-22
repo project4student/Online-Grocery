@@ -42,7 +42,7 @@ html
 							table
 								if cust
 									tr
-										td(rowspan=val.productName.length) #{val.shopName}
+										td(rowspan=val.productName.length).shName #{val.shopName}
 										td #{val.productName[i].name}
 										td #{val.productName[i].price}
 										td #{val.productName[i++].quantity}
@@ -50,11 +50,11 @@ html
 										td(rowspan=val.productName.length)
 											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
 										-var millsec=parseInt(val.date);
-										-var date=new Date(millsec).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'}).toUpperCase();
+										-var date=new Date(millsec).toLocaleString("en-US", {timeZone: "Asia/Kolkata",year:"numeric",month:"short",day:"2-digit",hour12: true,hour:"2-digit",minute:"2-digit"});
 										td(rowspan=val.productName.length)=date
 								else
 									tr
-										td(rowspan=val.productName.length) #{val.customerName}
+										td(rowspan=val.productName.length).custName #{val.customerName}
 										td #{val.productName[i].name}
 										td #{val.productName[i].price}
 										td #{val.productName[i++].quantity}
@@ -63,7 +63,7 @@ html
 										td(rowspan=val.productName.length)
 											a(href="tel:"+val.contactNumber+"") #{val.contactNumber}
 										-var millsec=parseInt(val.date);
-										-var date=new Date(millsec).toLocaleString(undefined, {timeZone: 'Asia/Kolkata'}).toUpperCase();
+										-var date=new Date(millsec).toLocaleString("en-US", {timeZone: "Asia/Kolkata",year:"numeric",month:"short",day:"2-digit",hour12: true,hour:"2-digit",minute:"2-digit"});
 										td(rowspan=val.productName.length)=date
 								while i < val.productName.length
 									tr

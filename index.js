@@ -311,7 +311,7 @@ app.post("/product", async (req, res) => {
 				service: "gmail",
 				auth: {
 					user: "tpass3506@gmail.com", // username for your mail server
-					pass: "mihir132", // password
+					pass: "mihir1322", // password
 				},
 			});
 			transporter.sendMail(
