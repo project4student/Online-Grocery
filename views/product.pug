@@ -50,12 +50,12 @@ html(ng-app="bill")
 				input(type="submit", value="CheckOut",ng-click="checkOut()",ng-show="cart.length > 0")
 				.message="{{msg}}"
 		script.
-			VanillaTilt.init(document.querySelectorAll(".card"), {
-				max: 25,
-				speed: 400,
-				glare: true,
-				"max-glare": 0.5
-			});
+			//- VanillaTilt.init(document.querySelectorAll(".card"), {
+			//- 	max: 25,
+			//- 	speed: 400,
+			//- 	glare: true,
+			//- 	"max-glare": 0.5
+			//- });
 			let productJson = `#{productJson}`;
 			let productDetail=null;
 			productJson=productJson.replaceAll('&quot;','"');
